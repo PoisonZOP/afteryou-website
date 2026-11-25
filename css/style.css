@@ -564,3 +564,186 @@ main:focus{outline:none}
 /* Utilities */
 @media(min-width:1000px){.mobile-only{display:none !important}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}
+
+/* ============================================================
+   FAQ — QUESTION AND ANSWER STYLING
+   Scoped to FAQ so other pages remain unchanged.
+   ============================================================ */
+
+.faq-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 32px;
+  align-items: start;
+}
+
+.faq-layout > * {
+  min-width: 0;
+}
+
+@media (min-width: 1000px) {
+  .faq-layout {
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 48px;
+  }
+}
+
+.faq-layout .faq-group + .faq-group {
+  margin-top: 32px;
+}
+
+.faq-layout .faq-group > h2 {
+  margin: 0 0 16px;
+  font-size: 22px;
+}
+
+/* Individual question card */
+
+.faq-layout .disclosure {
+  margin-bottom: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border, #c9b8aa);
+  border-radius: 12px;
+  background: var(--glass-card-bg, rgba(255, 255, 255, 0.7));
+  box-shadow: 0 3px 12px rgba(92, 64, 51, 0.04);
+}
+
+/* Clickable question */
+
+.faq-layout .disclosure-btn {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  width: 100%;
+  min-height: 60px;
+  margin: 0;
+  padding: 18px 20px;
+
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--cocoa, #5c4033);
+
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: left;
+
+  cursor: pointer;
+  transition: background-color 0.18s ease, color 0.18s ease;
+}
+
+.faq-layout .disclosure-btn > span {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.faq-layout .disclosure-btn:hover {
+  background: rgba(92, 64, 51, 0.05);
+}
+
+.faq-layout .disclosure-btn:focus-visible {
+  outline: 2px solid var(--pink, #b83256);
+  outline-offset: -3px;
+}
+
+.faq-layout .disclosure-btn[aria-expanded="true"] {
+  background: rgba(184, 50, 86, 0.06);
+  color: var(--pink, #b83256);
+}
+
+/* Arrow */
+
+.faq-layout .disclosure-btn .chev {
+  flex: 0 0 auto;
+  width: 14px;
+  height: 14px;
+  transition: transform 0.18s ease;
+}
+
+.faq-layout .disclosure-btn[aria-expanded="true"] .chev {
+  transform: rotate(180deg);
+}
+
+/* Answer */
+
+.faq-layout .disclosure-panel {
+  padding: 18px 20px 20px;
+  border-top: 1px solid var(--border, #c9b8aa);
+
+  color: var(--muted, #7a6558);
+  font-size: 15px;
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+}
+
+.faq-layout .disclosure-panel[hidden] {
+  display: none !important;
+}
+
+.faq-layout .disclosure-panel p {
+  margin: 0 0 12px;
+}
+
+.faq-layout .disclosure-panel p:last-child {
+  margin-bottom: 0;
+}
+
+.faq-layout .disclosure-panel ol,
+.faq-layout .disclosure-panel ul {
+  padding-left: 22px;
+  margin: 0 0 16px;
+}
+
+.faq-layout .disclosure-panel li + li {
+  margin-top: 8px;
+}
+
+.faq-layout .disclosure-panel a {
+  color: var(--pink, #b83256);
+  text-underline-offset: 3px;
+}
+
+.faq-layout .disclosure-panel a:hover {
+  text-decoration: underline;
+}
+
+.faq-layout .disclosure-panel strong {
+  color: var(--cocoa, #5c4033);
+}
+
+/* Sidebar spacing — FAQ only */
+
+.faq-layout > aside .side-panel + .side-panel {
+  margin-top: 20px;
+}
+
+/* Smaller screens */
+
+@media (max-width: 599px) {
+  .faq-layout {
+    gap: 28px;
+  }
+
+  .faq-layout .disclosure-btn {
+    min-height: 56px;
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .faq-layout .disclosure-panel {
+    padding: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq-layout .disclosure-btn,
+  .faq-layout .disclosure-btn .chev {
+    transition: none;
+  }
+}
