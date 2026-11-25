@@ -38,9 +38,69 @@
 </header>
 <main id="main" tabindex="-1"></main>
 <footer class="site-footer">
-  <div class="footer-inner"><div class="footer-grid">
-    <div class="footer-col"><h2>Get the app</h2><div class="app-buttons"><a class="app-btn" href="#" aria-label="Download on the App Store"><span><span class="ab-top">Download on the</span><span class="ab-bot">App Store</span></span></a><a class="app-btn" href="#" aria-label="Get it on Google Play"><span><span class="ab-top">Get it on</span><span class="ab-bot">Google Play</span></span></a></div></div>
-    <div class="footer-col"><h2>Follow us</h2><ul><li><a href="#">Facebook</a></li><li><a href="#">Instagram</a></li><li><a href="#">LINE</a></li></ul></div>
+  <div class="footer-inner">
+    <div class="footer-grid">
+    <div class="footer-col"><h2>Get the app</h2>
+      <div class="app-buttons">
+      <a class="app-btn" href="https://apple.co/3rP5cIu" target="_blank" rel="noopener noreferrer" aria-label="Download After You on the App Store">
+        <span>
+        <span class="ab-top">Download on the</span>
+        <span class="ab-bot">App Store</span>
+        </span>
+      </a>
+      <a class="app-btn" href="https://play.google.com/store/apps/details?id=com.nilecon.afteryou&amp;pli=1" target="_blank" rel="noopener noreferrer" aria-label="Download After You on Google Play"
+>
+        <span>
+          <span class="ab-top">Get it on</span>
+          <span class="ab-bot">Google Play</span>
+        </span>
+      </a>
+    </div>
+  </div>
+    <div class="footer-col">
+  <h2>Follow us</h2>
+
+  <ul class="footer-social-list">
+    <li>
+      <span class="footer-social-item">
+        <img
+          src="assets/facebook.jpg"
+          alt=""
+          width="28"
+          height="28"
+          loading="lazy"
+        >
+        <span>Facebook</span>
+      </span>
+    </li>
+
+    <li>
+      <span class="footer-social-item">
+        <img
+          src="assets/instagram.jpg"
+          alt=""
+          width="28"
+          height="28"
+          loading="lazy"
+        >
+        <span>Instagram</span>
+      </span>
+    </li>
+
+    <li>
+      <span class="footer-social-item">
+        <img
+          src="assets/line.jpg"
+          alt=""
+          width="28"
+          height="28"
+          loading="lazy"
+        >
+        <span>LINE</span>
+      </span>
+    </li>
+  </ul>
+</div>
     <div class="footer-col"><h2>Company</h2><ul><li><a href="#">Investor Relations</a></li><li><a href="#">Franchise Opportunities</a></li></ul></div>
     <div class="footer-col"><h2>Services</h2><ul><li><a href="#">Catering</a></li><li><a href="#">Member</a></li><li><a href="#/branches">Branches</a></li></ul></div>
     <div class="footer-col"><h2>Help</h2><ul><li><a href="#/contact">Contact Us</a></li><li><a href="#/faq">FAQ</a></li></ul></div>
@@ -48,12 +108,77 @@
   <div class="footer-bottom"><span>&copy; After You Dessert Cafe</span><span>Deliciously crafted experience. All rights reserved.</span></div>
 </footer>
 <section class="search-panel" id="search-panel" aria-labelledby="search-title" hidden>
-  <div class="search-panel-inner">
-    <div class="search-overlay-heading"><h2 id="search-title">Search the menu</h2><button type="button" class="icon-btn" id="search-close" aria-label="Close search"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
-    <div class="search-field"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m16.5 16.5 4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><label class="sr-only" for="global-search">Search desserts by name</label><input id="global-search" type="search" placeholder="Search desserts by name..." autocomplete="off" aria-controls="global-results"></div>
-    <p class="search-status" id="search-status" role="status" aria-live="polite"></p>
-    <ul class="search-results" id="global-results" aria-label="Search results"></ul>
+<div class="search-panel-inner">
+  <div class="search-overlay-heading">
+    <h2 id="search-title">Search the website</h2>
+
+    <button
+      type="button"
+      class="icon-btn"
+      id="search-close"
+      aria-label="Close search"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        aria-hidden="true"
+      >
+        <path
+          d="m6 6 12 12M18 6 6 18"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        />
+      </svg>
+    </button>
   </div>
+
+  <div class="search-field">
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+    >
+      <circle
+        cx="11"
+        cy="11"
+        r="7"
+        stroke="currentColor"
+        stroke-width="2"
+      />
+      <path
+        d="m16.5 16.5 4.5 4.5"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+      />
+    </svg>
+
+    <label class="sr-only" for="global-search">
+      Search the website
+    </label>
+
+    <input
+      id="global-search"
+      type="search"
+      placeholder="Search menu, FAQs, branches and more..."
+      autocomplete="off"
+      aria-controls="global-results"
+    >
+  </div>
+  <p
+    class="search-status"
+    id="search-status"
+    role="status"
+    aria-live="polite"
+  ></p>
+
+  <ul
+    class="search-results"
+    id="global-results"
+    aria-label="Search results"
+  ></ul>
+</div>
 </section>
 <div class="scrim" id="scrim"></div>
 <div class="drawer" id="menu-drawer" role="dialog" aria-modal="true" aria-label="Main menu" hidden>

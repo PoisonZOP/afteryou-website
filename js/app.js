@@ -159,7 +159,11 @@ function render() {
   applyLanguage();
   window.scrollTo({top:0, behavior:"instant" in window ? "instant" : "auto"});
 
-  if (document.activeElement !== $("#global-search")) main.focus({preventScroll:true});
+  if (document.activeElement !== $("#global-search")) {
+    main.focus({ preventScroll: true });
+  }
+
+  revealSearchedFaq();
 }
 
 function pageTitle(parts) {
@@ -1003,15 +1007,238 @@ function closeSearch(restoreFocus = false) {
   $$("#search-open, #search-open-m").forEach(b => b.setAttribute("aria-expanded", "false"));
   if (restoreFocus && searchTrigger?.isConnected) searchTrigger.focus({preventScroll:true});
 }
-function renderGlobalResults(q) {
-  const list = $("#global-results");
-  const query = q.trim().toLocaleLowerCase();
-  const matches = PRODUCTS.filter(p => !query || (p.name + " " + (p.desc || "")).toLocaleLowerCase().includes(query));
-  $("#search-status").textContent = language === "th" ? `พบ ${matches.length} รายการ` : `${matches.length} results`;
-  list.innerHTML = matches.length ? matches.map(p => `
-    <li><a href="#/order/${encodeURIComponent(p.id)}" data-close-search>
-      <span>${esc(p.name)}</span><span class="price">${money(minPrice(p))}</span>
-    </a></li>`).join("") : `<li class="search-empty">${language === "th" ? "ไม่พบรายการที่ค้นหา" : "No desserts match your search."}</li>`;
+function buildSiteSearchIndex() {
+  const entries = [
+    {
+      title: "Home",
+      type: "Page",
+      text: "After You dessert cafe homepage",
+      href: "#/"
+    },
+    {
+      title: "Menu",
+      type: "Page",
+      text: "Browse desserts drinks coffee toast kakigori croffle",
+      href: "#/menu"
+    },
+    {
+      title: "Frequently Asked Questions",
+      type: "Page",
+      text: "FAQ help support questions answers membership points",
+      href: "#/faq"
+    },
+    {
+      title: "Contact Us",
+      type: "Page",
+      text: "Contact phone email head office catering franchise careers",
+      href: "#/contact"
+    },
+    {
+      title: "Branches",
+      type: "Page",
+      text: "Find stores locations opening hours addresses",
+      href: "#/branches"
+    },
+    {
+      title: "Your Order",
+      type: "Page",
+      text: "Review shopping cart order checkout pickup delivery",
+      href: "#/order"
+    }
+  ];
+
+  if (typeof PRODUCTS !== "undefined") {
+    PRODUCTS.forEach(product => {
+      entries.push({
+        title: product.name,
+        type: "Menu",
+        text: [
+          product.name,
+          product.cat,
+          product.sub,
+          product.desc
+        ].filter(Boolean).join(" "),
+        href: "#/order/" + encodeURIComponent(product.id)
+      });
+    });
+  }
+
+  const faqGroups = [
+    {
+      prefix: "gen",
+      items:
+        typeof FAQ_GENERAL !== "undefined"
+          ? FAQ_GENERAL
+          : []
+    },
+    {
+      prefix: "inv",
+      items:
+        typeof FAQ_INVESTOR !== "undefined"
+          ? FAQ_INVESTOR
+          : []
+    }
+  ];
+
+  faqGroups.forEach(group => {
+    group.items.forEach((faq, index) => {
+      entries.push({
+        title: faq.q,
+        type: "FAQ",
+        text: [
+          faq.q,
+          faq.a,
+          faq.q === "How can I order online?"
+            ? "Choose a dessert select options add to cart pickup delivery checkout payment"
+            : ""
+        ].filter(Boolean).join(" "),
+        href:
+          "#/faq?faq=" +
+          encodeURIComponent("faq-" + group.prefix + "-" + index)
+      });
+    });
+  });
+
+  if (typeof BRANCHES !== "undefined") {
+    BRANCHES.forEach(branch => {
+      entries.push({
+        title: branch.name,
+        type: "Branch",
+        text: [
+          branch.name,
+          branch.region,
+          branch.address,
+          branch.hours
+        ].filter(Boolean).join(" "),
+        href: "#/branches"
+      });
+    });
+  }
+
+  if (typeof CONTACT !== "undefined") {
+    const office = CONTACT.headOffice || {};
+
+    entries.push({
+      title: "Head Office",
+      type: "Contact",
+      text: [
+        "head office contact",
+        office.address,
+        office.phone,
+        office.email
+      ].filter(Boolean).join(" "),
+      href: "#/contact"
+    });
+
+    (CONTACT.departments || []).forEach(department => {
+      entries.push({
+        title: department.name,
+        type: "Contact",
+        text: [
+          department.name,
+          department.phone,
+          department.email,
+          department.line
+        ].filter(Boolean).join(" "),
+        href: "#/contact"
+      });
+    });
+  }
+
+  return entries;
+}
+
+function renderGlobalResults(q = "") {
+  const list = document.getElementById("global-results");
+  const input = document.getElementById("global-search");
+  const status = document.getElementById("search-status");
+
+  if (!list || !input) return;
+
+  const normalize = value =>
+    String(value || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .replace(/\s+/g, " ")
+      .trim();
+
+  const query = normalize(q);
+
+  // Do not show products, FAQs, or suggestions before typing.
+  list.innerHTML = "";
+  list.hidden = true;
+  input.setAttribute("aria-expanded", "false");
+
+  if (status) status.textContent = "";
+
+  if (!query) return;
+
+  const words = query.split(" ");
+
+  const matches = buildSiteSearchIndex()
+    .map(entry => {
+      const title = normalize(entry.title);
+      const searchable = normalize(
+        entry.title + " " + entry.type + " " + entry.text
+      );
+
+      if (!words.every(word => searchable.includes(word))) {
+        return null;
+      }
+
+      const score =
+        title === query ? 3 :
+        title.startsWith(query) ? 2 :
+        title.includes(query) ? 1 :
+        0;
+
+      return { ...entry, score };
+    })
+    .filter(Boolean)
+    .sort((a, b) =>
+      b.score - a.score || a.title.localeCompare(b.title)
+    );
+
+  list.hidden = false;
+
+  if (!matches.length) {
+    list.innerHTML = `
+      <li class="search-empty">
+        No results found. Try another word.
+      </li>
+    `;
+
+    if (status) status.textContent = "No results found.";
+    return;
+  }
+
+  // Keep the panel manageable.
+  const visible = matches.slice(0, 12);
+
+  list.innerHTML = visible.map(entry => `
+    <li>
+      <a href="${esc(entry.href)}" data-close-search>
+        <span class="site-search-copy">
+          <span class="site-search-title">
+            ${esc(entry.title)}
+          </span>
+          <span class="site-search-type">
+            ${esc(entry.type)}
+          </span>
+        </span>
+      </a>
+    </li>
+  `).join("");
+
+  input.setAttribute("aria-expanded", "true");
+
+  if (status) {
+    status.textContent =
+      matches.length > visible.length
+        ? `Showing ${visible.length} of ${matches.length} results. Refine your search for more specific results.`
+        : `${matches.length} result${matches.length === 1 ? "" : "s"} found.`;
+  }
 }
 
 /* Branch Modal */
@@ -1174,24 +1401,43 @@ function setupMenuDropdown() {
 
 let language = (() => {try {return localStorage.getItem("ay_language") === "th" ? "th" : "en";} catch {return "en";}})();
 const uiThai = {"Home":"หน้าแรก","Menu":"เมนู","Branches":"สาขา","Order":"สั่งซื้อ","More":"เพิ่มเติม","Contact Us":"ติดต่อเรา","FAQ":"คำถามที่พบบ่อย","All":"ทั้งหมด","Other":"อื่น ๆ","All Other":"อื่น ๆ ทั้งหมด","What would you like?":"วันนี้รับอะไรดี?","Kakigōri":"คากิโกริ","Toast":"โทสต์","Signature Dessert":"ขนมหวานซิกเนเจอร์","Croffle":"ครอฟเฟิล","Special Coffee":"กาแฟพิเศษ","Hot Drinks":"เครื่องดื่มร้อน","Hot Tea":"ชาร้อน","Cold Drink":"เครื่องดื่มเย็น","New":"เมนูใหม่"};
+
 function applyLanguage() {
   document.documentElement.lang = language;
   $$("[data-lang]").forEach(b => {
-    const active=b.dataset.lang === language;
-    b.setAttribute("aria-pressed",String(active)); b.removeAttribute("aria-current");
+    const active = b.dataset.lang === language;
+    b.setAttribute("aria-pressed", String(active));
+    b.removeAttribute("aria-current");
   });
   $$(".desktop-nav [data-nav], #menu-drawer [data-nav], #more-menu a, #main h1, #main .eyebrow, #cat-row [data-cat], #other-menu button").forEach(el => {
-    if (!el.dataset.en) el.dataset.en=el.textContent.trim();
-    el.textContent=language === "th" ? (uiThai[el.dataset.en] || el.dataset.en) : el.dataset.en;
+    if (!el.dataset.en) el.dataset.en = el.textContent.trim();
+    el.textContent = language === "th" ? (uiThai[el.dataset.en] || el.dataset.en) : el.dataset.en;
   });
-  const more=$("#more-label"); if (more) more.textContent=language === "th" ? uiThai.More : "More";
-  const chip=$("#other-chip");
-  if(chip) chip.childNodes[0].nodeValue=(menuState.sub || (language === "th" ? uiThai.Other : "Other"))+" ";
-  const input=$("#global-search");
-  input.placeholder=language === "th" ? "ค้นหาขนมหวาน..." : "Search desserts by name...";
-  $("#search-title").textContent=language === "th" ? "ค้นหาเมนู" : "Search the menu";
-  if (!$("#search-panel").hidden) renderGlobalResults(input.value);
+  const more = $("#more-label");
+  if (more) more.textContent = language === "th" ? uiThai.More : "More";
+  const chip = $("#other-chip");
+  if (chip) chip.childNodes[0].nodeValue = (menuState.sub || (language === "th" ? uiThai.Other : "Other")) + " ";
+
+  const input = document.getElementById("global-search");
+  const title = document.getElementById("search-title");
+
+  if (input) {
+    input.placeholder =
+      language === "th"
+        ? "ค้นหาเมนู คำถามที่พบบ่อย สาขา และอื่น ๆ..."
+        : "Search menu, FAQs, branches and more...";
+  }
+
+  if (title) {
+    title.textContent =
+      language === "th"
+        ? "ค้นหาบนเว็บไซต์"
+        : "Search the website";
+  }
+
+  if (!$("#search-panel").hidden && input) renderGlobalResults(input.value);
 }
+
 function setLanguage(lang) {
   if (!["th","en"].includes(lang)) return;
   language=lang; try {localStorage.setItem("ay_language",lang);} catch {}
@@ -1289,3 +1535,57 @@ function init() {
   syncCartBadge(); renderCartPanel(); render();
 }
 if(document.readyState === "loading") document.addEventListener("DOMContentLoaded",init,{once:true}); else init();
+
+function revealSearchedFaq() {
+  const hash = window.location.hash;
+  const questionMark = hash.indexOf("?");
+
+  if (questionMark === -1) return;
+
+  const route = hash.slice(0, questionMark);
+
+  if (route !== "#/faq") return;
+
+  const params = new URLSearchParams(
+    hash.slice(questionMark + 1)
+  );
+
+  const id = params.get("faq");
+
+  if (!id) return;
+
+  const panel = document.getElementById(id);
+
+  if (!panel || !panel.classList.contains("disclosure-panel")) {
+    return;
+  }
+
+  const card = panel.closest(".disclosure");
+  const button = card?.querySelector(".disclosure-btn");
+
+  if (!button) return;
+
+  panel.hidden = false;
+  button.setAttribute("aria-expanded", "true");
+
+  requestAnimationFrame(() => {
+    if (!button.isConnected) return;
+
+    const header = document.querySelector(".site-header");
+    const headerHeight =
+      header?.getBoundingClientRect().height || 0;
+
+    const top =
+      button.getBoundingClientRect().top +
+      window.scrollY -
+      headerHeight -
+      20;
+
+    window.scrollTo({
+      top: Math.max(0, top),
+      behavior: "auto"
+    });
+
+    button.focus({ preventScroll: true });
+  });
+}
