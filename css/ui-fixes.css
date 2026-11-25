@@ -1,0 +1,52 @@
+/* Load AFTER style.css. Existing design and page styles remain intact. */
+[hidden] { display: none !important; }
+.site-header { overflow: visible; }
+.header-inner { min-width: 0; }
+.desktop-nav { align-items: center; }
+.lang-toggle { display:inline-flex; align-items:center; gap:2px; margin:0 4px; padding:0; flex-shrink:0; }
+.lang-btn { min-width:36px; min-height:40px; padding:6px; cursor:pointer; pointer-events:auto !important; transition:background-color .18s,color .18s,transform .18s; }
+.lang-btn[aria-pressed="true"] { color:var(--pink,#B83256); background:rgba(184,50,86,.09); }
+.lang-btn:hover { background:rgba(184,50,86,.14); color:var(--pink,#B83256); }
+.lang-btn:active { transform:scale(.94); }
+.mobile-controls { align-items:center; gap:2px; flex-shrink:0; }
+.mobile-only { display:inline-flex; }
+@media (min-width:1000px) { .mobile-only { display:none !important; } .desktop-nav { display:flex; } }
+@media (max-width:999px) { .desktop-nav { display:none; } .header-inner { gap:8px; } }
+@media (max-width:380px) { .logo { gap:6px; } .logo-mark { font-size:19px; } .logo-img { height:30px; } .mobile-controls .icon-btn { width:38px; } }
+/* A body-level overlay: no layout shift and no header clipping. */
+#search-panel.search-panel {
+  position:fixed !important; top:80px; left:50% !important; right:auto !important;
+  transform:translateX(-50%); width:min(720px,calc(100% - 24px));
+  z-index:75; border:1px solid var(--border,#C9B8AA); border-radius:18px;
+  background:rgba(255,249,240,.98); box-shadow:0 18px 55px rgba(60,38,28,.2);
+  overflow:hidden; animation:ay-search-in .16s ease-out;
+}
+#search-panel .search-panel-inner { padding:16px; display:flex; flex-direction:column; max-height:inherit; min-height:0; }
+.search-overlay-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:10px; flex-shrink:0; }
+.search-overlay-heading h2 { margin:0; font-size:22px; }
+#search-panel .search-field { flex-shrink:0; }
+#search-panel .search-field input { min-width:0; font-size:16px; }
+#search-panel .search-status { font-size:13px; color:var(--muted,#7A6558); margin:10px 0 4px; flex-shrink:0; }
+#search-panel .search-results { margin:0; max-height:none; min-height:0; overflow-y:auto; overscroll-behavior:contain; scrollbar-width:thin; }
+#search-panel .search-results a { padding:10px 12px; min-height:52px; }
+#search-panel .search-results a span:first-child { min-width:0; overflow-wrap:anywhere; }
+#search-panel .search-results .price { white-space:nowrap; flex-shrink:0; }
+#search-panel .search-results a:hover, #search-panel .search-results a:focus-visible { background:rgba(184,50,86,.08); }
+/* Only category chips scroll. The dropdown is portalled to document.body. */
+.chip-bar-wrapper { overflow:visible; min-width:0; }
+#cat-row.chip-row { display:flex; flex-wrap:nowrap; overflow-x:auto; overflow-y:hidden; align-items:center; min-width:0; padding:4px 0 10px; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
+#cat-row.chip-row::-webkit-scrollbar { display:none; }
+#cat-row .chip { flex-shrink:0; }
+#other-menu.other-menu {
+  position:fixed !important; inset:auto; z-index:76;
+  width:220px; min-width:0; max-width:calc(100vw - 24px); max-height:360px;
+  margin:0; padding:6px; overflow-y:auto; overscroll-behavior:contain;
+  border:1px solid var(--border,#C9B8AA); border-radius:14px;
+  background:rgba(255,249,240,.99); box-shadow:0 14px 40px rgba(60,38,28,.2);
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+}
+#other-menu button { width:100%; min-height:44px; white-space:normal; }
+#other-menu button:focus-visible { background:rgba(184,50,86,.08); outline-offset:-2px; }
+#other-menu button[aria-checked="true"] { color:var(--pink,#B83256); background:rgba(184,50,86,.07); }
+@keyframes ay-search-in { from { opacity:0; margin-top:-6px; } to { opacity:1; margin-top:0; } }
+@media (prefers-reduced-motion:reduce) { #search-panel.search-panel { animation:none; } .lang-btn { transition:none; } }

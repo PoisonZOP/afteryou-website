@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>After You Dessert Cafe</title>
+<meta name="description" content="Kakigōri, toast, croffles and more. Browse the After You dessert menu.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/ui-fixes.css?v=3">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<div class="promo" id="promo" hidden><div class="promo-inner"><p><strong>New:</strong> Mango Kakigōri is back for the season.</p><button type="button" class="promo-close" id="promo-close" aria-label="Dismiss announcement"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div></div>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="logo" href="#/" aria-label="After You Dessert Cafe home">
+      <img class="logo-img" src="assets/logo.jpg" alt="After You logo">
+      <span class="logo-text"><span class="logo-mark">After You</span><span class="logo-sub">Dessert Café</span></span>
+    </a>
+    <nav class="desktop-nav" aria-label="Primary">
+      <a class="nav-link" href="#/" data-nav="/">Home</a><a class="nav-link" href="#/menu" data-nav="/menu">Menu</a><a class="nav-link" href="#/branches" data-nav="/branches">Branches</a><a class="nav-link" href="#/order" data-nav="/order">Order</a>
+      <button type="button" class="icon-btn " id="cart-open" aria-label="Open cart" aria-expanded="false" aria-controls="cart-panel"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 4h2.2l2.2 11.2a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 2-1.6L21 8H6" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="10" cy="20" r="1.4" fill="currentColor"/><circle cx="18" cy="20" r="1.4" fill="currentColor"/></svg><span class="cart-badge" id="cart-badge" hidden>0</span></button>
+      <div class="dropdown">
+        <button type="button" class="nav-link" id="more-btn" aria-expanded="false" aria-controls="more-menu"><span id="more-label">More</span><svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="m2 4 4 4 4-4" stroke="currentColor" stroke-width="2"/></svg></button>
+        <div class="dropdown-menu" id="more-menu" hidden><a href="#/faq">FAQ</a><a href="#/contact">Contact Us</a></div>
+      </div>
+      <div class="lang-toggle" role="group" aria-label="Language"><button type="button" class="lang-btn" data-lang="th" lang="th" aria-label="ภาษาไทย" aria-pressed="false">TH</button><span aria-hidden="true">|</span><button type="button" class="lang-btn" data-lang="en" lang="en" aria-label="English" aria-pressed="true">EN</button></div>
+      <button type="button" class="icon-btn " id="search-open" aria-label="Search desserts" aria-expanded="false" aria-controls="search-panel"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m16.5 16.5 4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+    </nav>
+    <div class="mobile-controls mobile-only">
+      <button type="button" class="icon-btn mobile-only" id="search-open-m" aria-label="Search desserts" aria-expanded="false" aria-controls="search-panel"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m16.5 16.5 4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button><button type="button" class="icon-btn mobile-only" id="cart-open-m" aria-label="Open cart" aria-expanded="false" aria-controls="cart-panel"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 4h2.2l2.2 11.2a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 2-1.6L21 8H6" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="10" cy="20" r="1.4" fill="currentColor"/><circle cx="18" cy="20" r="1.4" fill="currentColor"/></svg><span class="cart-badge" id="cart-badge-m" hidden>0</span></button>
+      <button type="button" class="icon-btn mobile-only" id="drawer-open" aria-label="Open menu" aria-expanded="false" aria-controls="menu-drawer"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+    </div>
+  </div>
+</header>
+<main id="main" tabindex="-1"></main>
+<footer class="site-footer">
+  <div class="footer-inner"><div class="footer-grid">
+    <div class="footer-col"><h2>Get the app</h2><div class="app-buttons"><a class="app-btn" href="#" aria-label="Download on the App Store"><span><span class="ab-top">Download on the</span><span class="ab-bot">App Store</span></span></a><a class="app-btn" href="#" aria-label="Get it on Google Play"><span><span class="ab-top">Get it on</span><span class="ab-bot">Google Play</span></span></a></div></div>
+    <div class="footer-col"><h2>Follow us</h2><ul><li><a href="#">Facebook</a></li><li><a href="#">Instagram</a></li><li><a href="#">LINE</a></li></ul></div>
+    <div class="footer-col"><h2>Company</h2><ul><li><a href="#">Investor Relations</a></li><li><a href="#">Franchise Opportunities</a></li></ul></div>
+    <div class="footer-col"><h2>Services</h2><ul><li><a href="#">Catering</a></li><li><a href="#">Member</a></li><li><a href="#/branches">Branches</a></li></ul></div>
+    <div class="footer-col"><h2>Help</h2><ul><li><a href="#/contact">Contact Us</a></li><li><a href="#/faq">FAQ</a></li></ul></div>
+  </div></div>
+  <div class="footer-bottom"><span>&copy; After You Dessert Cafe</span><span>Deliciously crafted experience. All rights reserved.</span></div>
+</footer>
+<section class="search-panel" id="search-panel" aria-labelledby="search-title" hidden>
+  <div class="search-panel-inner">
+    <div class="search-overlay-heading"><h2 id="search-title">Search the menu</h2><button type="button" class="icon-btn" id="search-close" aria-label="Close search"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
+    <div class="search-field"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m16.5 16.5 4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><label class="sr-only" for="global-search">Search desserts by name</label><input id="global-search" type="search" placeholder="Search desserts by name..." autocomplete="off" aria-controls="global-results"></div>
+    <p class="search-status" id="search-status" role="status" aria-live="polite"></p>
+    <ul class="search-results" id="global-results" aria-label="Search results"></ul>
+  </div>
+</section>
+<div class="scrim" id="scrim"></div>
+<div class="drawer" id="menu-drawer" role="dialog" aria-modal="true" aria-label="Main menu" hidden>
+  <div class="panel-head"><h2>Menu</h2><button type="button" class="icon-btn" id="drawer-close" aria-label="Close menu"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
+  <nav aria-label="Mobile navigation"><a class="nav-link" href="#/" data-nav="/">Home</a><a class="nav-link" href="#/menu" data-nav="/menu">Menu</a><a class="nav-link" href="#/branches" data-nav="/branches">Branches</a><a class="nav-link" href="#/order" data-nav="/order">Order</a><div class="drawer-sep"></div><a href="#/faq">FAQ</a><a href="#/contact">Contact Us</a><div class="drawer-sep"></div><div class="lang-toggle" role="group" aria-label="Language"><button type="button" class="lang-btn" data-lang="th" lang="th" aria-label="ภาษาไทย" aria-pressed="false">TH</button><span aria-hidden="true">|</span><button type="button" class="lang-btn" data-lang="en" lang="en" aria-label="English" aria-pressed="true">EN</button></div></nav>
+</div>
+<aside class="panel" id="cart-panel" role="dialog" aria-modal="true" aria-labelledby="cart-title" hidden>
+  <div class="panel-head"><h2 id="cart-title">Your cart</h2><button type="button" class="icon-btn" id="cart-close" aria-label="Close cart"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
+  <div class="panel-body" id="cart-body"></div><div class="panel-foot" id="cart-foot"></div>
+</aside>
+<div class="modal" id="branch-modal" role="dialog" aria-modal="true" aria-labelledby="branch-modal-title" hidden><div class="modal-card" id="branch-modal-card"></div></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="js/data.js"></script>
+<script src="js/app.js?v=3"></script>
+</body>
+</html>
