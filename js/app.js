@@ -1589,3 +1589,5 @@ function revealSearchedFaq() {
     button.focus({ preventScroll: true });
   });
 }
+
+// This function is called after the page is rendered to ensure that if a user navigates to a specific FAQ via a link, the corresponding question is revealed and focused.
